@@ -1,0 +1,24 @@
+unordered_map<string,vector<string>> mp;
+    vector<string> wordBreak(int n, vector<string>& dict, string s)
+    {
+        // code here
+        if(mp.find(s)!=mp.end()) return mp[s];
+        
+        vector<string> str;
+        
+        for(auto var:dict){
+            if(s.substr(0,var.size())==var){
+                if(s.size()==var.size()){
+                    str.push_back(s);
+                }
+                else{
+                    
+                    vector<string> temp=wordBreak(n,dict,s.substr(var.size()));
+                     for(auto t:temp) {str.push_back(var + " " + t);}
+                }
+            }
+        }
+        mp[s]=str;
+        return mp[s];
+        
+    }
