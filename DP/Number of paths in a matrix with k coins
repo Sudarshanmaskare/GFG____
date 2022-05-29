@@ -1,0 +1,20 @@
+Given a N x N matrix such that each of its cells contains some coins. Count the number of ways to collect exactly K coins 
+while moving from top left corner of the matrix to the bottom right.
+From a cell (i, j), you can only move to (i+1, j) or (i, j+1).
+
+long long func(vector<vector<int>> &A,int m,int n,int k,vector<vector<vector<long long>>> &dp)
+   {
+       if(!m and !n){
+           if(A[m][n]==k) return 1;
+           return 0;
+       }
+       if(m<0 or n<0 or k<1) return 0;
+       if(dp[m][n][k]!=-1) return dp[m][n][k];
+       long long res=func(A,m-1,n,k-A[m][n],dp)+func(A,m,n-1,k-A[m][n],dp);
+       dp[m][n][k]=res;
+       return res;
+   }
+   long long numberOfPath(int n, int k, vector<vector<int>> arr){
+       vector<vector<vector<long long>>> dp(n,vector<vector<long long>> (n,vector<long long> (k+1,-1)));
+       return func(arr,n-1,n-1,k,dp);
+   }
