@@ -1,0 +1,34 @@
+
+Given a string, the task is to count all palindromic sub-strings present in it. Length of palindrome sub-string must be greater than or equal to 2. 
+
+
+int CountPS(char S[], int N)
+{
+    //code here
+    vector<vector<bool>> dp(N,vector<bool>(N,false));
+    int c=0;
+    for(int g=0;g<N;g++){
+        for(int i=0,j=g;j<N;j++,i++){
+            if(g==0){
+                dp[i][j]=true;
+                continue;
+            }
+            else if(g==1){
+                dp[i][j]=(S[i]==S[j]);
+            }
+            else{
+                
+                if(S[i]==S[j] && dp[i+1][j-1]){
+                    dp[i][j]=true;
+                }
+                
+                
+            }
+            if(dp[i][j]){
+                    c++;
+                }
+        }
+    }
+    return c;
+    
+}
