@@ -1,0 +1,22 @@
+ int dp[505][2004];
+    int solve(vector<int> &nums,int &k,int rem,int idx,int n){
+        if(idx==n) return 0;
+        if(dp[idx][rem]!=-1) return dp[idx][rem];
+        int ans;
+        if(nums[idx]>rem){
+            ans=(rem+1)*(rem+1)+solve(nums,k,k-nums[idx]-1,idx+1,n);
+            
+        }
+        else{
+            ans=min((rem+1)*(rem+1)+solve(nums,k,k-nums[idx]-1,idx+1,n),
+            solve(nums,k,rem-nums[idx]-1,idx+1,n));
+        }
+        return dp[idx][rem]=ans;
+    }
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // Code here
+        memset(dp,-1,sizeof(dp));
+        int n=nums.size();
+        return solve(nums,k,k,0,n);
+    } 
