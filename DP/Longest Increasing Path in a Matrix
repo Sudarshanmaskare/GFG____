@@ -1,0 +1,50 @@
+Given a matrix with n rows and m columns. Your task is to find the length of the longest increasing path in matrix, here increasing path means that
+the value in the specified path increases. For example if a path of length k has values a1, a2, a3, .... ak  , then for every i from [2,k] this condition
+must hold ai > ai-1.  No cell should be revisited in the path.
+From each cell, you can either move in four directions: left, right, up, or down. You are not allowed to move diagonally or move outside the boundary.
+
+
+
+Expected Time Complexity: O(n*m)
+Expected Auxiliary Space: O(n*m)
+
+class Solution {
+  public:
+  int dp[1001][1001];
+  int cal(vector<vector<int>> &matrix,int n,int m,int i,int j,int pre){
+      if(i<0 || j<0 || i>=n || j>=m || matrix[i][j]<=pre) return 0;
+      
+      if(dp[i][j]!=-1) return dp[i][j];
+      int up,down,left,right;
+      up=down=left=right=INT_MIN;
+      if(i-1>=0){
+          up=cal(matrix,n,m,i-1,j,matrix[i][j]);
+      }
+      if(j-1>=0){
+          left=cal(matrix,n,m,i,j-1,matrix[i][j]);
+      }
+      if(i+1<n){
+          down=cal(matrix,n,m,i+1,j,matrix[i][j]);
+      }
+      if(j+1<m){
+          right=cal(matrix,n,m,i,j+1,matrix[i][j]);
+      }
+      return dp[i][j]=1+max({up,down,left,right});
+  }
+  
+    int longestIncreasingPath(vector<vector<int>>& matrix, int n, int m) {
+
+        // Code here
+        memset(dp,-1,sizeof(dp));
+        int res=1;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                res=max(res,cal(matrix,n,m,i,j,-1));
+                
+            }
+        }
+        return res;
+    }
+};
+
+
